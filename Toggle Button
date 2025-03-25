@@ -1,0 +1,110 @@
+Create an Android Application that Demonstrate Switch and Toggle Button. 
+
+
+activity_main.xml
+string.xml
+main_activity.java
+
+
+
+activity_main.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/toggle_off"
+        android:textOn="@string/toggle_on"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toggle_off"
+        android:textSize="18sp"
+        android:paddingTop="16dp" />
+
+</LinearLayout>
+
+
+string.xml
+
+
+<resources>
+    <string name="app_name">ToggleButtonDemo</string>
+    <string name="toggle_on">Toggle is ON</string>
+    <string name="toggle_off">Toggle is OFF</string>
+</resources>
+
+
+
+main_activity.java
+
+
+
+package com.example.togglebuttondemo;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ToggleButton toggleButton;
+    private TextView statusTextView;
+
+    @Override
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initializeViews();
+        setupToggleButtonListener();
+    }
+
+    /**
+     * Initialize UI components.
+     */
+    private void initializeViews() {
+        toggleButton = findViewById(R.id.toggleButton);
+        statusTextView = findViewById(R.id.statusTextView);
+    }
+
+    /**
+     * Set up the ToggleButton checked state listener.
+     */
+    private void setupToggleButtonListener() {
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            updateToggleStatus(isChecked);
+        });
+    }
+
+    /**
+     * Update the status TextView based on ToggleButton state.
+     *
+     * @param isChecked true if toggle is ON, false otherwise.
+     */
+    private void updateToggleStatus(boolean isChecked) {
+        String status = isChecked ? getString(R.string.toggle_on) : getString(R.string.toggle_off);
+        statusTextView.setText(status);
+    }
+}
+
+
+
