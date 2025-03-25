@@ -1,0 +1,194 @@
+Create an Android application to demonstrate Progress Dialog Box using AsyncTask 
+
+
+AndroidMenifest.xml
+activity_main.xml
+main_activity.java
+theme.xml
+color.xml
+string.xml
+progres_task.java
+
+
+
+AndroidMenifest.xml
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.progressdialogdemo">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.ProgressDialogDemo">
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ProgressDialogDemo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+
+
+activity_main.xml
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Task"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_500"
+        android:textColor="#FFFFFF" />
+</LinearLayout>
+
+
+main_activity.java
+
+
+
+package com.example.progressdialogdemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+
+    private Button btnStart;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btnStart = findViewById(R.id.btnStart);
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start AsyncTask with ProgressDialog
+                new ProgressTask(MainActivity.this).execute();
+            }
+        });
+    }
+}
+
+
+
+
+theme.xml
+
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.ProgressDialogDemo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+    </style>
+</resources>
+
+
+color.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>
+
+
+string.xml
+
+
+<resources>
+    <string name="app_name">ProgressDialogDemo</string>
+    <string name="btn_start">Start Task</string>
+</resources>
+
+
+
+
+
+progres_task.java
+
+
+package com.example.progressdialogdemo;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+public class ProgressTask extends AsyncTask<Void, Integer, String> {
+
+    private ProgressDialog progressDialog;
+    private Context context;
+
+    public ProgressTask(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(100);
+        progressDialog.show();
+    }
+
+    @Override
+    protected String doInBackground(Void... voids) {
+        for (int i = 0; i <= 100; i += 10) {
+            try {
+                Thread.sleep(500);
+                publishProgress(i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return "Task Completed";
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        progressDialog.setProgress(values[0]);
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        progressDialog.dismiss();
+        Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+    }
+}
+
