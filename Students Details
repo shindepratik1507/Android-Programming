@@ -1,0 +1,299 @@
+Create an Android App, it reads the Students Details (Name, Surname, Class, Gender, Hobbies, Marks) and display the all information in another activity in table format on click of Submit button.
+
+activity_main.xml
+mainactivity.java
+activity_result.xml
+result_activity.java
+manifest.xml
+
+
+activity_main.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Name -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- Surname -->
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Surname"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- Class -->
+        <EditText
+            android:id="@+id/etClass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Class"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- Gender -->
+        <RadioGroup
+            android:id="@+id/radioGroupGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+        </RadioGroup>
+
+        <!-- Hobbies -->
+        <EditText
+            android:id="@+id/etHobbies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Hobbies"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- Marks -->
+        <EditText
+            android:id="@+id/etMarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Marks"
+            android:inputType="number"
+            android:backgroundTint="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+mainactivity.java
+
+
+package com.example.studentdetailsapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText etName, etSurname, etClass, etHobbies, etMarks;
+    private RadioGroup radioGroupGender;
+    private Button btnSubmit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etName = findViewById(R.id.etName);
+        etSurname = findViewById(R.id.etSurname);
+        etClass = findViewById(R.id.etClass);
+        etHobbies = findViewById(R.id.etHobbies);
+        etMarks = findViewById(R.id.etMarks);
+        radioGroupGender = findViewById(R.id.radioGroupGender);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(view -> {
+            String name = etName.getText().toString();
+            String surname = etSurname.getText().toString();
+            String studentClass = etClass.getText().toString();
+            String hobbies = etHobbies.getText().toString();
+            String marks = etMarks.getText().toString();
+
+            int selectedGenderId = radioGroupGender.getCheckedRadioButtonId();
+            String gender = (selectedGenderId != -1)
+                    ? ((RadioButton) findViewById(selectedGenderId)).getText().toString()
+                    : "Not Selected";
+
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("surname", surname);
+            intent.putExtra("class", studentClass);
+            intent.putExtra("gender", gender);
+            intent.putExtra("hobbies", hobbies);
+            intent.putExtra("marks", marks);
+            startActivity(intent);
+        });
+    }
+}
+
+
+
+activity_result.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Name -->
+        <TableRow>
+            <TextView android:text="Name:" />
+            <TextView
+                android:id="@+id/tvName"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+
+        <!-- Surname -->
+        <TableRow>
+            <TextView android:text="Surname:" />
+            <TextView
+                android:id="@+id/tvSurname"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+
+        <!-- Class -->
+        <TableRow>
+            <TextView android:text="Class:" />
+            <TextView
+                android:id="@+id/tvClass"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+
+        <!-- Gender -->
+        <TableRow>
+            <TextView android:text="Gender:" />
+            <TextView
+                android:id="@+id/tvGender"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+
+        <!-- Hobbies -->
+        <TableRow>
+            <TextView android:text="Hobbies:" />
+            <TextView
+                android:id="@+id/tvHobbies"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+
+        <!-- Marks -->
+        <TableRow>
+            <TextView android:text="Marks:" />
+            <TextView
+                android:id="@+id/tvMarks"
+                android:textStyle="bold"
+                android:paddingStart="8dp" />
+        </TableRow>
+    </TableLayout>
+</ScrollView>
+
+
+
+result_activity.java
+
+
+
+package com.example.studentdetailsapp;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ResultActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        ((TextView) findViewById(R.id.tvName)).setText(getIntent().getStringExtra("name"));
+        ((TextView) findViewById(R.id.tvSurname)).setText(getIntent().getStringExtra("surname"));
+        ((TextView) findViewById(R.id.tvClass)).setText(getIntent().getStringExtra("class"));
+        ((TextView) findViewById(R.id.tvGender)).setText(getIntent().getStringExtra("gender"));
+        ((TextView) findViewById(R.id.tvHobbies)).setText(getIntent().getStringExtra("hobbies"));
+        ((TextView) findViewById(R.id.tvMarks)).setText(getIntent().getStringExtra("marks"));
+    }
+}
+
+
+
+manifest.xml
+
+
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.studentdetailsapp">
+
+    <application
+        android:label="Student Details App"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"> <!-- FIXED: Added android:exported -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ResultActivity"
+            android:exported="false" /> <!-- Optional: Set to false if not directly accessible -->
+    </application>
+</manifest>
+
+
