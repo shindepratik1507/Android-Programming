@@ -1,0 +1,150 @@
+Create following Vertical Scroll View Creation in Android. 
+
+activity_main.xml
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Button 4 -->
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 4"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 5 -->
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 5"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 6 -->
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 6"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 7 -->
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 7"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 8 -->
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 8"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 9 -->
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 9"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@android:color/black" />
+
+        <!-- Button 10 -->
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button 10"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/holo_orange_dark"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>
+
+
+MainActivity.java
+
+package com.example.scrollviewexample;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Handle button clicks
+        setupButton(R.id.button4, "Button 4 clicked");
+        setupButton(R.id.button5, "Button 5 clicked");
+        setupButton(R.id.button6, "Button 6 clicked");
+        setupButton(R.id.button7, "Button 7 clicked");
+        setupButton(R.id.button8, "Button 8 clicked");
+        setupButton(R.id.button9, "Button 9 clicked");
+        setupButton(R.id.button10, "Button 10 clicked");
+    }
+
+    private void setupButton(int id, final String message) {
+        Button button = findViewById(id);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+
+AndroidManifest.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.scrollviewexample">
+
+    <application
+        android:label="ScrollView Example"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+
+
